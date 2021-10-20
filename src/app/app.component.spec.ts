@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { GithubDataService } from './service/github-data.service';
 
 describe('AppComponent', () => {
+
+  let dataServiceSpy: jasmine.SpyObj<GithubDataService>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      providers:[
+        {provide: GithubDataService, useValue:dataServiceSpy}
+      ]
     }).compileComponents();
+    dataServiceSpy=TestBed.inject(GithubDataService) as jasmine.SpyObj<GithubDataService>
   });
 
   it('should create the app', () => {
@@ -22,10 +29,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('GithubRepoShower');
   });
 
-  it('should render title', () => {
+  it('should render input with placeholder for Enter Github', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('GithubRepoShower app is running!');
+    expect(compiled.querySelector('input')?.placeholder).toContain('Enter Github');
   });
 });

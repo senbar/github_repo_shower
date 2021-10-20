@@ -1,7 +1,33 @@
+<div class="urlbox">
+    <input type="text" value="senbar"
+        (input)="urlInputChange.next($event.target.value)" placeholder="Enter Github link">
+</div>
 
+<ul class="repos-list">
+    <li *ngFor="let repo of (repositoriesStream | async)">
+        <a href={{repo.RepoUrl}}>
+        <div class="repo" >
 
-Enter github linik
+            <div class="repo__image">
+                <img src="{{repo.OwnerAvatarUrl}}">
+            </div>
+            <div class="repo__stats">
+                <div class="repo__stats-forks">
+                    <img src="assets/fork.svg">
+                    <span> {{repo.NumberOfForks}}</span>
+                </div>
+                <div class="repo__stats-stars">
+                    <img src="assets/star.svg">
+                    <span> {{repo.NumberOfStars}}</span>
+                </div>
+                <div class="repo__stats-comments">
+                    <img src="assets/comment.svg">
+                    <span> {{repo.NumberOfComments}}</span>
+                </div>
+            </div>
 
-<!-- <input (input)="test($event)"> -->
-<input type="text" (input)="urlInputChange.next($event.target.value)">
-<li *ngFor='let repo of (repositoriesStream | async)'
+            <span class="repo__title"> {{repo.Name}}</span>
+        </div>
+</a>
+    </li>
+</ul>

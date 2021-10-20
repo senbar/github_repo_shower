@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {  Subject } from 'rxjs';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import { debounceTime,  mergeMap } from 'rxjs/operators';
 import { GithubDataService } from './service/github-data.service';
 
 
@@ -11,14 +11,19 @@ import { GithubDataService } from './service/github-data.service';
 })
 export class AppComponent {
   title = 'GithubRepoShower';
-  constructor(private githubDataService:GithubDataService) {
+  constructor(private githubDataService: GithubDataService) {
+    this.urlInputChange.next("senbar")
   }
 
-  urlInputChange= new Subject<string>()
-  repositoriesStream= this.urlInputChange.pipe(
-    debounceTime(500),
-    distinctUntilChanged(),
-    switchMap(url=>this.githubDataService.fetchRepositories(url))
-  );
+  urlInputChange = new Subject<string>()
+  repositoriesStream = this.urlInputChange.pipe(
+    debounceTime(1000),
+    mergeMap(url => this.githubDataService.fetchRepositories(url))
+  )
+  
+  // wanted to do error handling but unfortunately hit github api request limit
+  // repositoryHandle= this.repositoriesStream.subscribe(
+  //   succ=>{console.log("success")}
+  //   , error=>{ console.log("no user found") })
 
 }
