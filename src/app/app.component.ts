@@ -12,7 +12,6 @@ import { GithubDataService } from './service/github-data.service';
 export class AppComponent {
   title = 'GithubRepoShower';
   constructor(private githubDataService: GithubDataService) {
-    this.urlInputChange.next("senbar")
   }
 
   urlInputChange = new Subject<string>()
